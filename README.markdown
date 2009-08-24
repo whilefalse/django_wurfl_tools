@@ -22,6 +22,8 @@ The template context processor attempts to use algorithms in the following order
   * Add `'django_wurfl_tools.context_processors.get_device'` to your `TEMPLATE_CONTEXT_PROCESSORS` setting in settings.py.
   * This will put a variable named `device` into your context (as long as you're using `RequestContext`), which is a pywurfl object representing the current device, or None if the device couldn't be found.
   * Any device variables can then be accessed as `{{device.<property_name>}}`. For more info, check out the [pywurfl docs](http://celljam.net/).
+
+
 ## Template Tags
   * In any template where you want to use the template tags, add `{% load wurfl %}`. This loads the following tags:
 
