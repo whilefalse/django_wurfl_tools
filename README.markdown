@@ -50,27 +50,21 @@ However, the device_prop tag allows you to access a dynamic property, like so:
 Allows conditional hiding/showing of markup depending on a device property. Also allows the use of inequalities.
 
 #### Usage
-`
-\#You can test a property in a boolean context:
-{% device_has "vpn" %}
-\<h1>You have VPN!</h1>
-\#You can also use else tags
-{% else %}
-\<h1>No VPN I'm afraid :(</h1>
-{% end_device_has %}
+You can test a property in a boolean context:
+`{% device_has "vpn" %} You have VPN! {% else %} No VPN I'm afraid :( {% end_device_has %}`
 
-#You can also test against inequalities. Valid inequalities are [==, !=, <, >, <=, >=].
-#Logical and/or/not are not currently supported
+You can also test against inequalities. Valid inequalities are [==, !=, <, >, <=, >=].
+Logical and/or/not are not currently supported
 
-{% device_has "max_data_rate" >= 9 %}
-<h1>Fast</h1>
+`{% device_has "max_data_rate" >= 9 %}
+Fast
 {% end_device_has %}
 {% device_has "max_data_rate" >= 40.5 %}
-<h1>Really fast</h1>
-{% end_device_has %}
+Really fast
+{% end_device_has %}`
 
-#Both the device property and the comparison value may be context variables
-{% device_has prop == prop_val %}
+Both the device property and the comparison value may be context variables
+`{% device_has prop == prop_val %}
 Passed - {{prop}} == {{prop_val}}
 {% else %}
 Failed - {{prop}} != {{prop_val}}
