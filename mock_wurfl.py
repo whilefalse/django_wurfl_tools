@@ -1,13 +1,19 @@
-class devices:
+"""Provides a mock interface to the devices object created by pywurfl.
+Useful for debugging should you not want to load in the whole wurfl module."
+
+class devices(object):
+"""Mock wurfl devices class"""
     def __init__(self):
         pass
 
     def select_ua(*args, **kwargs):
         return MockDevice()
 
+#Create a mock instance
 devices = devices()
 
-class MockDevice:
+class MockDevice(object):
+"""Mock of pywurfl.Device"""
     def __init__(self):
         self.groups = {
                 'mock_group_1': ['mock_attr_1', 'mock_attr_2', 'mock_attr_3'],
