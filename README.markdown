@@ -8,7 +8,7 @@ This is in development. Expect more features to come.
 # Prerequisites
 [PyWurfl](http://celljam.net/) - see the link for installation instructions. 
 
-If you want to use the Levenshtein distance or Jaro-Winkler algorithms for user agent similarity, you'll need the [http://celljam.net/downloads/pywurfl/python-Levenshtein-0.10.1.tar.gz](Levenshtein Module)
+If you want to use the Levenshtein distance or Jaro-Winkler algorithms for user agent similarity, you'll need the [Levenshtein Module](http://celljam.net/downloads/pywurfl/python-Levenshtein-0.10.1.tar.gz)
 
 The template context processor attempts to use algorithms in the following order - LevenshteinDistance, JaroWinkler, Tokenizer.
 
