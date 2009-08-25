@@ -1,5 +1,5 @@
 """Provides a mock interface to the devices object created by pywurfl.
-Useful for debugging should you not want to load in the whole wurfl module."
+Useful for debugging should you not want to load in the whole wurfl module."""
 
 class devices(object):
 """Mock wurfl devices class"""
