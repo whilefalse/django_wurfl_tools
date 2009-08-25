@@ -71,6 +71,10 @@ def device_has(parser, token):
     {% device_has "device_attr" >= 9.0 %} Something {% else %} Something else {% end_device_has %} - Compares against an inequality
     {% device_has "device_attr" != "hi" %} Something {% end_device_has %} - Else is optional
     {% device_has device_attr == attr_val %} Something {% end_device_has %} - Attribute name and value can both reference context variables
+
+    Valid Inequalities are:
+    ==, !=, <, >, <=, >=, or any callable in the context. The callable should take two arguments, the property value and the 
+    value to compare against, and should return a boolean.
     """
 
     try:
@@ -81,17 +85,14 @@ def device_has(parser, token):
             if len(values) != 4:
                 msg = "`%s` tag malformed.\n" % tag_name +\
                     "If you have more than one argument, you must have both.\n"+\
-                    "an operator [==,!=,<,>,<=,>=], and a value to compare to.\n"
+                    "an operator [==,!=,<,>,<=,>=,any callable in the context], and a value to compare to.\n"
                 raise template.TemplateSyntaxError(msg)
 
             op = values[2]
             try:
                 operator = ops[op]
             except KeyError:
-                msg = "`%s` tag malformed.\n" % tag_name +\
-                      "Operator `%s` is not valid.\n" % op+\
-                      "Valid operators are [==,!=,<,>,<=,>=].\n"
-                raise template.TemplateSyntaxError(msg)
+                operator = template.Variable(op)
             
             val = template.Variable(values[3])
         else:
@@ -124,9 +125,16 @@ class DeviceHasNode(template.Node):
         """Renders the true nodelist if the comparison evaluates to true,
         otherwise renders the false nodelist"""
         device = get_device_from_context(context)
+        passed = True
 
         self.prop_name = self.prop_name.resolve(context)
         self.val = self.val.resolve(context)
+
+        if not callable(self.operator):
+            try:
+                self.operator = self.operator.resolve(context)
+            except:
+                passed = False
 
         #If no inequality and value were passed, we use a boolean context
         if type(self.val) == type(True) and self.val == True:
@@ -134,7 +142,7 @@ class DeviceHasNode(template.Node):
         else:
             compare = lambda x,y: self.operator(x,y)
             
-        passed = bool(device) and compare(getattr(device, self.prop_name, None), self.val)
+        passed = passed and bool(device) and compare(getattr(device, self.prop_name, None), self.val)
         
         if passed:
             return self.nodelist_true.render(context)
@@ -181,8 +189,7 @@ class DevicePropNode(template.Node):
             return "None"
         else:
             val = getattr(device, self.prop_name, None)
-            return unicode(val)
-                
+            return unicode(val)                
 
 
 @register.tag

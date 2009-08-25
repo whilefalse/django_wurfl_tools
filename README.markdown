@@ -60,7 +60,10 @@ You can test a property in a boolean context:
        No VPN I'm afraid :( 
     {% end_device_has %}`
 
-You can also test against inequalities. Valid inequalities are [==, !=, <, >, <=, >=].
+You can also test against inequalities. Valid inequalities are [==, !=, <, >, <=, >=, or a callable].
+
+The callable should take two arguments, the property value as it's first, and the value to compare against
+as it's second. It should return a boolean.
 
 Logical and/or/not are not currently supported
 
@@ -69,6 +72,9 @@ Logical and/or/not are not currently supported
     {% end_device_has %}
     {% device_has "max_data_rate" >= 40.5 %}
         Really fast
+    {% end_device_has %}
+    {% device_has "max_data_rate" callable 10.34 %}
+        Maybe fast or slow, depends what callable does
     {% end_device_has %}
 
 Both the device property and the comparison value may be context variables

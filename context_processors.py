@@ -4,6 +4,9 @@ and inclusion of the requesting device in the template context.
 """
 
 from wurfl import devices
+#You can use this if you want to import the whole wurfl.py module for testing.
+#from mock_wurfl import devices
+
 from pywurfl import DeviceNotFound
 #Get the best algorithm possible
 try:
